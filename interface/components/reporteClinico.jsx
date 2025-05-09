@@ -32,7 +32,7 @@ function ReporteClinico({
     }));
   };
 
-  // Funcion para asegurar que porcentaje sea un numero y formatearlo a 1 decimal
+  // Funcion para asegurar que porcentaje sea un numero, no exceda el 100%, y formatearlo a 1 decimal
   const formatearPorcentaje = (porcentaje) => {
     // Convertir a numero si es un string
     const valorNumerico = typeof porcentaje === 'string' ? parseFloat(porcentaje) : porcentaje;
@@ -42,8 +42,25 @@ function ReporteClinico({
       return '0.0';
     }
     
-    // Usar toFixed solo si es un numero, si no no jala
-    return valorNumerico.toFixed(1);
+    // Asegurar que no exceda el 100%
+    const valorLimitado = Math.min(valorNumerico, 100);
+    
+    // Usar toFixed para formatear a 1 decimal
+    return valorLimitado.toFixed(1);
+  };
+
+  // Función para limitar el porcentaje para la barra de progreso
+  const limitarPorcentajeParaBarra = (porcentaje) => {
+    // Convertir a numero si es un string
+    const valorNumerico = typeof porcentaje === 'string' ? parseFloat(porcentaje) : porcentaje;
+    
+    // Verificar si es un numero válido
+    if (isNaN(valorNumerico)) {
+      return 0;
+    }
+    
+    // Limitar entre 0 y 100
+    return Math.min(Math.max(valorNumerico, 0), 100);
   };
 
   return (
@@ -107,10 +124,8 @@ function ReporteClinico({
             {diagnosticos && diagnosticos.length > 0 ? (
               <div className="space-y-4">
                 {diagnosticos.map((diagnostico, index) => {
-                  // Asegurar que porcentaje sea un número para el ancho del div
-                  const porcentajeNumerico = typeof diagnostico.porcentaje === 'string' 
-                    ? parseFloat(diagnostico.porcentaje) 
-                    : (typeof diagnostico.porcentaje === 'number' ? diagnostico.porcentaje : 0);
+                  // Calcular el porcentaje limitado para la barra de progreso
+                  const porcentajeParaBarra = limitarPorcentajeParaBarra(diagnostico.porcentaje);
                   
                   return (
                     <div key={index} className="border rounded-lg overflow-hidden">
@@ -136,7 +151,7 @@ function ReporteClinico({
                                     index === 1 ? 'bg-orange-500' :
                                     'bg-yellow-500'
                                   }`}
-                                  style={{ width: `${porcentajeNumerico}%` }}
+                                  style={{ width: `${porcentajeParaBarra}%` }}
                                 ></div>
                               </div>
                               <span className="text-sm text-gray-600">{formatearPorcentaje(diagnostico.porcentaje)}%</span>

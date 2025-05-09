@@ -169,40 +169,48 @@ function App() {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold text-center text-blue-800 mb-6">Sistema de Diagnostico Medico</h1>
-      
-      {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4" role="alert">
-          <p>{error}</p>
+    <div className="min-h-screen bg-gray-100">
+      <div className="bg-gray-900 px-6 py-6 shadow-md">
+        <div className="flex justify-center items-center">
+          <span className="text-blue-400 text-2xl font-bold">
+            Sistema de Diagnostico Medico
+          </span>
         </div>
-      )}
-      
-      <div className="flex flex-col md:flex-row gap-6">
-        {/* Panel izquierdo - Formulario de historial clinico */}
-        <div className="w-full md:w-1/2">
-          <HistorialClinico 
-            pacienteData={pacienteData}
-            handleInputChange={handleInputChange}
-            listaSintomas={listaSintomas}
-            sintomasSeleccionados={sintomasSeleccionados}
-            handleSintomaChange={handleSintomaChange}
-            handleSubmit={handleSubmit}
-            consultaEnviada={consultaEnviada}
-            cargando={cargando}
-          />
-        </div>
-        
-        {/* Panel derecho - Reporte clinico */}
-        <div className="w-full md:w-1/2">
-          <ReporteClinico 
-            pacienteData={pacienteData}
-            diagnosticos={diagnosticos}
-            sintomasSeleccionados={sintomasSeleccionados}
-            listaSintomas={listaSintomas}
-            consultaEnviada={consultaEnviada}
-            cargando={cargando}
-          />
+      </div>
+      <div className="container mx-auto p-2 my-5">
+
+        {error && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4" role="alert">
+            <p>{error}</p>
+          </div>
+        )}
+
+        <div className="flex flex-col md:flex-row gap-6">
+          {/* Panel izquierdo - Formulario de historial clinico */}
+          <div className="w-full md:w-1/2">
+            <HistorialClinico 
+              pacienteData={pacienteData}
+              handleInputChange={handleInputChange}
+              listaSintomas={listaSintomas}
+              sintomasSeleccionados={sintomasSeleccionados}
+              handleSintomaChange={handleSintomaChange}
+              handleSubmit={handleSubmit}
+              consultaEnviada={consultaEnviada}
+              cargando={cargando}
+            />
+          </div>
+
+          {/* Panel derecho - Reporte clinico */}
+          <div className="w-full md:w-1/2">
+            <ReporteClinico 
+              pacienteData={pacienteData}
+              diagnosticos={diagnosticos}
+              sintomasSeleccionados={sintomasSeleccionados}
+              listaSintomas={listaSintomas}
+              consultaEnviada={consultaEnviada}
+              cargando={cargando}
+            />
+          </div>
         </div>
       </div>
     </div>
